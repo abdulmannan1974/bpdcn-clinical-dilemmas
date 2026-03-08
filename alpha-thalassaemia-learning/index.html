@@ -5,35 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alpha Thalassaemia — Interactive Learning | Blood🩸Doctor</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
   :root {
-    --primary: #b91c1c;
-    --primary-light: #fecaca;
-    --primary-dark: #7f1d1d;
-    --accent: #1e40af;
-    --accent-light: #dbeafe;
-    --green: #15803d;
-    --green-light: #dcfce7;
-    --amber: #b45309;
-    --amber-light: #fef3c7;
-    --purple: #7e22ce;
-    --purple-light: #f3e8ff;
-    --teal: #0f766e;
-    --teal-light: #ccfbf1;
-    --bg: #fafaf9;
-    --card: #ffffff;
-    --text: #1c1917;
-    --muted: #78716c;
-    --border: #e7e5e4;
-    --radius: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-    --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+    --primary: #b4232f;
+    --primary-light: #fde2e4;
+    --primary-dark: #6f1421;
+    --accent: #1f4db5;
+    --accent-light: #dde9ff;
+    --green: #1a7f5a;
+    --green-light: #dcf6ea;
+    --amber: #c7771a;
+    --amber-light: #fff0d8;
+    --purple: #7b3fe4;
+    --purple-light: #f1e9ff;
+    --teal: #0e766e;
+    --teal-light: #d6f7f4;
+    --bg: #f4efe8;
+    --card: rgba(255,255,255,0.86);
+    --card-strong: #fffdf9;
+    --text: #261b18;
+    --muted: #6d5c57;
+    --border: rgba(126, 82, 65, 0.14);
+    --radius: 20px;
+    --shadow: 0 14px 40px rgba(78, 36, 31, 0.08);
+    --shadow-lg: 0 22px 60px rgba(54, 22, 19, 0.16);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(180,35,47,0.12), transparent 28%),
+      radial-gradient(circle at top right, rgba(31,77,181,0.10), transparent 22%),
+      linear-gradient(180deg, #fbf7f1 0%, var(--bg) 48%, #efe5d8 100%);
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
@@ -41,49 +47,132 @@
 
   /* Header */
   .header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #991b1b 100%);
+    background:
+      radial-gradient(circle at 15% 18%, rgba(255,255,255,0.14), transparent 22%),
+      radial-gradient(circle at 85% 28%, rgba(250,213,165,0.16), transparent 20%),
+      linear-gradient(135deg, #4f1020 0%, #8f1628 42%, #ba2430 72%, #d04f38 100%);
     color: white;
-    padding: 2rem 1.5rem;
-    text-align: center;
+    padding: 2.6rem 1.5rem 3rem;
     position: relative;
     overflow: hidden;
   }
   .header::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    inset: auto 8% -42px auto;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%);
     pointer-events: none;
   }
-  .header h1 {
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    font-weight: 800;
-    letter-spacing: -0.5px;
+  .hero-shell {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.9fr);
+    gap: 1.5rem;
+    align-items: end;
     position: relative;
+    z-index: 1;
   }
-  .header p {
-    font-size: 0.95rem;
-    opacity: 0.9;
-    margin-top: 0.5rem;
-    position: relative;
+  .hero-copy {
+    max-width: 720px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+  }
+  .header h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(2.35rem, 5vw, 4.4rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+  .hero-lead {
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    max-width: 58ch;
+    opacity: 0.94;
+    margin-top: 1rem;
+    color: rgba(255,255,255,0.92);
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+  }
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.14);
+    font-size: 0.88rem;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
   }
   .header .badge {
     display: inline-block;
-    background: rgba(255,255,255,0.2);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    margin-top: 0.75rem;
-    backdrop-filter: blur(4px);
-    position: relative;
+    background: rgba(255,248,241,0.14);
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    margin-top: 1.35rem;
+    backdrop-filter: blur(10px);
+  }
+  .hero-kpis {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .hero-kpi {
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .kpi-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.72;
+    margin-bottom: 0.35rem;
+    font-weight: 800;
+  }
+  .hero-kpi strong {
+    display: block;
+    font-size: 1.65rem;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.3rem;
+  }
+  .kpi-note {
+    display: block;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.86);
   }
 
   /* Progress bar */
   .progress-container {
-    background: var(--card);
+    background: rgba(255,253,249,0.82);
     padding: 0.75rem 1.5rem;
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -93,6 +182,7 @@
     top: 0;
     z-index: 100;
     box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
   }
   .progress-bar {
     flex: 1;
@@ -117,12 +207,13 @@
 
   /* Navigation tabs */
   .nav {
-    background: var(--card);
+    background: rgba(255,253,249,0.8);
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    backdrop-filter: blur(14px);
   }
   .nav::-webkit-scrollbar { display: none; }
   .nav-inner {
@@ -163,9 +254,9 @@
 
   /* Content area */
   .content {
-    max-width: 900px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem 2.5rem;
   }
 
   .section { display: none; }
@@ -173,18 +264,21 @@
 
   /* Cards */
   .card {
-    background: var(--card);
+    background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,251,247,0.88));
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    padding: 1.5rem;
+    padding: 1.65rem;
     margin-bottom: 1.25rem;
     box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
   }
   .card h2 {
-    font-size: 1.3rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
     font-weight: 700;
     margin-bottom: 0.75rem;
     color: var(--primary-dark);
+    letter-spacing: -0.03em;
   }
   .card h3 {
     font-size: 1.05rem;
@@ -192,7 +286,100 @@
     margin: 1rem 0 0.5rem;
     color: var(--text);
   }
-  .card p { margin-bottom: 0.75rem; color: #44403c; }
+  .card p { margin-bottom: 0.75rem; color: #473c38; }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.95fr);
+    gap: 1.2rem;
+    margin-bottom: 1.25rem;
+  }
+  .overview-hero,
+  .overview-visual {
+    background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,250,245,0.82));
+    border: 1px solid rgba(111, 20, 33, 0.10);
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: var(--shadow);
+  }
+  .overview-hero {
+    padding: 1.65rem;
+  }
+  .overview-hero p {
+    max-width: 60ch;
+  }
+  .overview-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.1rem;
+  }
+  .mini-note {
+    background: rgba(245, 235, 227, 0.72);
+    border: 1px solid rgba(111,20,33,0.08);
+    border-radius: 16px;
+    padding: 0.9rem 1rem;
+  }
+  .mini-note strong {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--primary-dark);
+  }
+  .mini-note span {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .overview-visual {
+    padding: 1.25rem;
+  }
+  .overview-visual h3 {
+    margin-top: 0;
+  }
+  .gene-dose-ladder {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.9rem;
+  }
+  .dose-step {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(111,20,33,0.08);
+  }
+  .dose-count {
+    min-width: 52px;
+    padding: 0.45rem 0.6rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .dose-label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .dose-severity {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .cluster-strip {
+    text-align: center;
+    margin: 1rem 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, rgba(111,20,33,0.05), rgba(31,77,181,0.06));
+    padding: 1rem;
+    border-radius: 14px;
+    overflow-x: auto;
+    border: 1px solid rgba(111,20,33,0.08);
+  }
 
   /* Key fact boxes */
   .key-fact {
@@ -297,35 +484,41 @@
   /* Severity spectrum */
   .spectrum {
     display: flex;
-    border-radius: var(--radius);
-    overflow: hidden;
+    gap: 0.7rem;
     margin: 1rem 0;
     font-size: 0.75rem;
     font-weight: 600;
+    flex-wrap: wrap;
   }
   .spectrum-item {
-    flex: 1;
-    padding: 0.75rem 0.5rem;
+    flex: 1 1 180px;
+    padding: 0.9rem 0.75rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
     border: 2px solid transparent;
     min-width: 0;
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
   }
   .spectrum-item:hover { transform: translateY(-2px); }
-  .spectrum-item.sel { border-color: var(--text); }
+  .spectrum-item.sel {
+    border-color: rgba(38, 27, 24, 0.72);
+    box-shadow: 0 10px 25px rgba(38, 27, 24, 0.12);
+  }
   .spectrum-s1 { background: #dcfce7; color: #15803d; }
   .spectrum-s2 { background: #fef9c3; color: #854d0e; }
   .spectrum-s3 { background: #fed7aa; color: #9a3412; }
   .spectrum-s4 { background: #fecaca; color: #991b1b; }
 
   .spectrum-detail {
-    background: #f5f5f4;
+    background: linear-gradient(135deg, rgba(247,242,235,0.92), rgba(255,255,255,0.88));
     border-radius: var(--radius);
     padding: 1rem;
     margin-top: 0.5rem;
     font-size: 0.9rem;
     min-height: 60px;
+    border: 1px solid rgba(111,20,33,0.08);
   }
 
   /* Tables */
@@ -353,11 +546,12 @@
 
   /* Quiz */
   .quiz-box {
-    background: var(--card);
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,250,255,0.92));
     border: 2px solid var(--accent);
     border-radius: var(--radius);
     padding: 1.25rem;
     margin: 1rem 0;
+    box-shadow: 0 16px 35px rgba(31, 77, 181, 0.10);
   }
   .quiz-q {
     font-weight: 700;
@@ -425,13 +619,19 @@
 
   /* Flashcard */
   .flashcard-container { perspective: 1000px; margin: 1rem 0; }
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
   .flashcard {
     width: 100%;
-    min-height: 160px;
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
+    border-radius: calc(var(--radius) + 2px);
   }
   .flashcard.flipped { transform: rotateY(180deg); }
   .flashcard-front, .flashcard-back {
@@ -439,30 +639,59 @@
     top: 0; left: 0; width: 100%; height: 100%;
     backface-visibility: hidden;
     border-radius: var(--radius);
-    padding: 1.5rem;
+    padding: 1.35rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 0.75rem;
+    box-shadow: var(--shadow);
   }
   .flashcard-front {
-    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    background:
+      radial-gradient(circle at top right, rgba(255,255,255,0.20), transparent 26%),
+      linear-gradient(145deg, #163885, #2a61d3 70%, #5a8cff 100%);
     color: white;
-    font-weight: 700;
-    font-size: 1.1rem;
   }
   .flashcard-back {
-    background: linear-gradient(135deg, var(--green), #166534);
+    background:
+      radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 22%),
+      linear-gradient(145deg, #0f5b42, #158459 70%, #35a46b 100%);
     color: white;
     transform: rotateY(180deg);
-    font-size: 0.95rem;
     line-height: 1.5;
   }
+  .flashcard-kicker {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    opacity: 0.82;
+  }
+  .flashcard-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+  .flashcard-copy {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.92);
+  }
   .flashcard-hint {
-    font-size: 0.75rem;
-    opacity: 0.7;
-    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    opacity: 0.92;
+    margin-top: auto;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.16);
   }
 
   /* Interactive comparison */
@@ -624,18 +853,68 @@
   @media (max-width: 640px) {
     .content { padding: 1rem; }
     .card { padding: 1rem; }
+    .hero-shell,
+    .overview-grid,
+    .flashcard-grid,
+    .overview-meta { grid-template-columns: 1fr; }
+    .header {
+      padding: 2rem 1rem 2.4rem;
+      text-align: left;
+    }
+    .hero-kpis { gap: 0.65rem; }
+    .hero-meta { gap: 0.5rem; }
     .spectrum { flex-direction: column; }
     .spectrum-item { padding: 0.5rem; }
     .gene { width: 24px; height: 24px; font-size: 0.6rem; }
+    .dose-step {
+      grid-template-columns: auto 1fr;
+    }
+    .dose-severity {
+      grid-column: 2;
+    }
+    .nav-buttons {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .nav-btn {
+      width: 100%;
+    }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🧬 Alpha Thalassaemia</h1>
-  <p>Comprehensive Interactive Learning Guide</p>
-  <div class="badge">Based on Bain, Haemoglobinopathy Diagnosis, 3rd Ed (2020) &bull; #BloodDoctor</div>
+  <div class="hero-shell">
+    <div class="hero-copy">
+      <div class="eyebrow">Blood Doctor Interactive Haematology Module</div>
+      <h1>Alpha Thalassaemia</h1>
+      <p class="hero-lead">A cleaner, exam-focused learning journey from silent carrier states to Hb H disease and Hb Bart&apos;s hydrops, built around the one rule that matters most: count the functioning alpha genes.</p>
+      <div class="hero-meta">
+        <span class="hero-pill">9 learning stations</span>
+        <span class="hero-pill">Clickable severity map</span>
+        <span class="hero-pill">Quiz + counselling logic</span>
+      </div>
+      <div class="badge">Based on Bain, Haemoglobinopathy Diagnosis, 3rd Ed (2020) &bull; #BloodDoctor</div>
+    </div>
+    <div class="hero-kpis">
+      <div class="hero-kpi">
+        <span class="kpi-label">Severity logic</span>
+        <strong>4 to 0 genes</strong>
+        <span class="kpi-note">Phenotype worsens as gene loss accumulates.</span>
+      </div>
+      <div class="hero-kpi">
+        <span class="kpi-label">Counselling hinge</span>
+        <strong>DNA matters</strong>
+        <span class="kpi-note">Trait phenotypes can look identical on FBC and HPLC.</span>
+      </div>
+      <div class="hero-kpi">
+        <span class="kpi-label">Clinical memory</span>
+        <strong>Hb H = haemolysis</strong>
+        <span class="kpi-note">Unlike beta-thal major, marrow failure is not the dominant story.</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="progress-container">
@@ -651,6 +930,64 @@
 
 <!-- ============ SECTION 1: OVERVIEW ============ -->
 <div class="section active" id="sec-overview">
+  <div class="overview-grid">
+    <div class="overview-hero">
+      <div class="eyebrow" style="color: var(--primary-dark); background: rgba(180,35,47,0.08); border-color: rgba(180,35,47,0.12);">Start Here</div>
+      <h2>The learning map in one screen</h2>
+      <p>Alpha thalassaemia becomes much easier when you stop memorising isolated labels and instead track <strong>how many alpha genes are still working</strong>, then match that count to physiology, phenotype, and reproductive risk.</p>
+      <div class="overview-meta">
+        <div class="mini-note">
+          <strong>Core concept</strong>
+          <span>Four alpha-globin genes sit on chromosome 16, two on each copy.</span>
+        </div>
+        <div class="mini-note">
+          <strong>Best first move</strong>
+          <span>Think gene dosage before you think haematology jargon.</span>
+        </div>
+        <div class="mini-note">
+          <strong>Clinical fork</strong>
+          <span>Two-gene states need DNA if counselling risk is on the table.</span>
+        </div>
+        <div class="mini-note">
+          <strong>Exam trap</strong>
+          <span>Hb H disease is dominated by haemolysis, not classic beta-thal ineffective erythropoiesis.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="overview-visual">
+      <h3>Gene-count severity ladder</h3>
+      <p>Use this sequence as the page-wide visual anchor while you move through the app.</p>
+      <div class="gene-dose-ladder">
+        <div class="dose-step">
+          <div class="dose-count">4</div>
+          <div class="dose-label">Normal alpha-globin output</div>
+          <div class="dose-severity">alphaalpha / alphaalpha</div>
+        </div>
+        <div class="dose-step">
+          <div class="dose-count">3</div>
+          <div class="dose-label">Silent carrier</div>
+          <div class="dose-severity">Usually asymptomatic</div>
+        </div>
+        <div class="dose-step">
+          <div class="dose-count">2</div>
+          <div class="dose-label">Alpha-thal trait</div>
+          <div class="dose-severity">Microcytosis, counselling hinge</div>
+        </div>
+        <div class="dose-step">
+          <div class="dose-count">1</div>
+          <div class="dose-label">Hb H disease</div>
+          <div class="dose-severity">Haemolysis, inclusions, splenomegaly</div>
+        </div>
+        <div class="dose-step">
+          <div class="dose-count">0</div>
+          <div class="dose-label">Hb Bart&apos;s hydrops fetalis</div>
+          <div class="dose-severity">Severe fetal hypoxia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <h2>What is Alpha Thalassaemia?</h2>
     <p>Alpha thalassaemia results from <strong>reduced or absent synthesis of α-globin chains</strong>, most often caused by deletions of one or more of the four α-globin genes on chromosome 16 (16p13.3).</p>
@@ -661,7 +998,7 @@
 
     <h3>The Alpha Gene Cluster</h3>
     <p>The α-globin gene cluster spans ~26 kb on chromosome 16p13.3, arranged as:</p>
-    <div style="text-align:center; margin:1rem 0; font-family: monospace; font-size:0.9rem; background:#f5f5f4; padding:1rem; border-radius:8px; overflow-x:auto;">
+    <div class="cluster-strip">
       5' — ζ — ψζ — μ — ψα1 — <strong style="color:var(--primary)">α2</strong> — <strong style="color:var(--primary)">α1</strong> — θ — 3'
     </div>
 
@@ -991,27 +1328,36 @@
     <h2>Pathophysiology</h2>
     <p>With only one functional α gene, there is a large excess of β chains. These form <strong>β₄ tetramers (Hb H)</strong>.</p>
 
-    <div class="flashcard-container">
-      <div class="flashcard" onclick="this.classList.toggle('flipped')">
-        <div class="flashcard-front">
-          <div>Why is Hb H (β₄) a bad oxygen carrier?</div>
-          <div class="flashcard-hint">Tap to reveal</div>
-        </div>
-        <div class="flashcard-back">
-          Hb H has a <strong>very high oxygen affinity</strong> with a <strong>hyperbolic</strong> (not sigmoidal) oxygen dissociation curve. It does NOT show cooperativity. This means it binds oxygen avidly but fails to release it to tissues effectively.
+    <div class="flashcard-grid">
+      <div class="flashcard-container">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-front">
+            <div class="flashcard-kicker">Oxygen delivery</div>
+            <div class="flashcard-title">Why is Hb H (β₄) a poor oxygen carrier?</div>
+            <div class="flashcard-copy">Homotetramers look efficient on screening tracings, but the problem is tissue unloading rather than oxygen binding.</div>
+            <div class="flashcard-hint">Tap to reveal</div>
+          </div>
+          <div class="flashcard-back">
+            <div class="flashcard-kicker">Answer</div>
+            <div class="flashcard-title">High affinity, no cooperativity</div>
+            <div class="flashcard-copy">Hb H has a <strong>very high oxygen affinity</strong> with a <strong>hyperbolic</strong> rather than sigmoidal dissociation curve. It binds oxygen avidly but releases it poorly to tissues.</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="flashcard-container">
-      <div class="flashcard" onclick="this.classList.toggle('flipped')">
-        <div class="flashcard-front">
-          <div>How does Hb H disease differ from β-thal major in pathophysiology?</div>
-          <div class="flashcard-hint">Tap to reveal</div>
-        </div>
-        <div class="flashcard-back">
-          In β-thal major, <strong>ineffective erythropoiesis</strong> dominates (α chain precipitates damage erythroblasts in marrow).<br><br>
-          In Hb H disease, <strong>haemolysis</strong> is more important — Hb H precipitates as Heinz bodies in circulating red cells, causing membrane damage and splenic destruction.
+      <div class="flashcard-container">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-front">
+            <div class="flashcard-kicker">Comparison frame</div>
+            <div class="flashcard-title">How does Hb H disease differ from beta-thal major?</div>
+            <div class="flashcard-copy">Both are globin-chain disorders, but the dominant site of damage is not the same.</div>
+            <div class="flashcard-hint">Tap to reveal</div>
+          </div>
+          <div class="flashcard-back">
+            <div class="flashcard-kicker">Answer</div>
+            <div class="flashcard-title">Hb H disease is chiefly haemolytic</div>
+            <div class="flashcard-copy">In beta-thal major, <strong>ineffective erythropoiesis</strong> dominates because excess alpha chains damage marrow erythroblasts. In Hb H disease, <strong>haemolysis</strong> is more important because Hb H precipitates as Heinz bodies in circulating red cells, causing membrane damage and splenic destruction.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1511,10 +1857,13 @@ sections.forEach((s, i) => {
   navContainer.appendChild(tab);
 });
 
-function goSection(idx) {
-  // Mark current section as completed
-  completedSections.add(currentSection);
-  document.getElementById('tab-' + currentSection).classList.add('completed');
+function setActiveSection(idx, options = {}) {
+  const { markCurrentCompleted = true, updateLocationHash = true, scrollToTop = true } = options;
+
+  if (markCurrentCompleted && idx !== currentSection) {
+    completedSections.add(currentSection);
+    document.getElementById('tab-' + currentSection).classList.add('completed');
+  }
 
   // Switch section
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1529,7 +1878,19 @@ function goSection(idx) {
 
   currentSection = idx;
   updateProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  requestAnimationFrame(sizeFlashcards);
+
+  if (updateLocationHash) {
+    history.replaceState(null, '', '#' + sections[idx].id);
+  }
+
+  if (scrollToTop) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function goSection(idx) {
+  setActiveSection(idx);
 }
 
 function updateProgress() {
@@ -1607,8 +1968,32 @@ function updateScore() {
   }
 }
 
+function sizeFlashcards() {
+  document.querySelectorAll('.section.active .flashcard').forEach(card => {
+    const faces = card.querySelectorAll('.flashcard-front, .flashcard-back');
+    card.style.height = 'auto';
+    let maxHeight = 0;
+    faces.forEach(face => {
+      maxHeight = Math.max(maxHeight, face.scrollHeight);
+    });
+    card.style.height = Math.max(maxHeight + 12, 240) + 'px';
+  });
+}
+
+function getInitialSectionIndex() {
+  const hash = window.location.hash.replace('#', '').trim();
+  if (!hash) return 0;
+  const idx = sections.findIndex(section => section.id === hash);
+  return idx >= 0 ? idx : 0;
+}
+
 // Initialize
-updateProgress();
+setActiveSection(getInitialSectionIndex(), {
+  markCurrentCompleted: false,
+  updateLocationHash: false,
+  scrollToTop: false
+});
+window.addEventListener('resize', () => requestAnimationFrame(sizeFlashcards));
 </script>
 
 </body>
