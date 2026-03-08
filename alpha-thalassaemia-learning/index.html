@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpha Thalassaemia — Interactive Learning | Blood🩸Doctor</title>
+<style>
+  :root {
+    --primary: #b91c1c;
+    --primary-light: #fecaca;
+    --primary-dark: #7f1d1d;
+    --accent: #1e40af;
+    --accent-light: #dbeafe;
+    --green: #15803d;
+    --green-light: #dcfce7;
+    --amber: #b45309;
+    --amber-light: #fef3c7;
+    --purple: #7e22ce;
+    --purple-light: #f3e8ff;
+    --teal: #0f766e;
+    --teal-light: #ccfbf1;
+    --bg: #fafaf9;
+    --card: #ffffff;
+    --text: #1c1917;
+    --muted: #78716c;
+    --border: #e7e5e4;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #991b1b 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header h1 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    position: relative;
+  }
+  .header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
+    position: relative;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+    backdrop-filter: blur(4px);
+    position: relative;
+  }
+
+  /* Progress bar */
+  .progress-container {
+    background: var(--card);
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e7e5e4;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* Navigation tabs */
+  .nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-inner {
+    display: inline-flex;
+    padding: 0 1rem;
+    min-width: 100%;
+  }
+  .nav-tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+  .nav-tab .tab-icon { font-size: 1rem; }
+  .nav-tab .tab-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-tab.completed .tab-check { display: flex; }
+
+  /* Content area */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--primary-dark);
+  }
+  .card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 1rem 0 0.5rem;
+    color: var(--text);
+  }
+  .card p { margin-bottom: 0.75rem; color: #44403c; }
+
+  /* Key fact boxes */
+  .key-fact {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+  }
+  .key-fact.red {
+    border-left-color: var(--primary);
+    background: var(--primary-light);
+  }
+  .key-fact.green {
+    border-left-color: var(--green);
+    background: var(--green-light);
+  }
+  .key-fact.amber {
+    border-left-color: var(--amber);
+    background: var(--amber-light);
+  }
+  .key-fact.purple {
+    border-left-color: var(--purple);
+    background: var(--purple-light);
+  }
+  .key-fact.teal {
+    border-left-color: var(--teal);
+    background: var(--teal-light);
+  }
+  .key-fact strong { color: var(--text); }
+
+  /* Clinical pearl */
+  .pearl {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 1px solid #f59e0b;
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+  .pearl-title {
+    font-weight: 700;
+    color: #92400e;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+  .pearl p { color: #78350f; margin: 0; font-size: 0.9rem; }
+
+  /* Genotype diagram */
+  .genotype-diagram {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+  .chromosome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .chr-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .gene-pair {
+    display: flex;
+    gap: 4px;
+  }
+  .gene {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: white;
+  }
+  .gene.active { background: var(--green); }
+  .gene.deleted { background: #dc2626; }
+  .gene.mutated { background: var(--amber); }
+
+  .genotype-label {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .genotype-result {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* Severity spectrum */
+  .spectrum {
+    display: flex;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 1rem 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .spectrum-item {
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+    min-width: 0;
+  }
+  .spectrum-item:hover { transform: translateY(-2px); }
+  .spectrum-item.sel { border-color: var(--text); }
+  .spectrum-s1 { background: #dcfce7; color: #15803d; }
+  .spectrum-s2 { background: #fef9c3; color: #854d0e; }
+  .spectrum-s3 { background: #fed7aa; color: #9a3412; }
+  .spectrum-s4 { background: #fecaca; color: #991b1b; }
+
+  .spectrum-detail {
+    background: #f5f5f4;
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    min-height: 60px;
+  }
+
+  /* Tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    background: var(--primary-dark);
+    color: white;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .data-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:nth-child(even) { background: #fafaf9; }
+  .data-table tr:hover { background: var(--primary-light); }
+  .table-scroll { overflow-x: auto; }
+
+  /* Quiz */
+  .quiz-box {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin: 1rem 0;
+  }
+  .quiz-q {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .quiz-opt {
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background: white;
+  }
+  .quiz-opt:hover { border-color: var(--accent); background: var(--accent-light); }
+  .quiz-opt.correct {
+    border-color: var(--green);
+    background: var(--green-light);
+    color: var(--green);
+    font-weight: 600;
+  }
+  .quiz-opt.wrong {
+    border-color: #dc2626;
+    background: #fef2f2;
+    color: #dc2626;
+  }
+  .quiz-opt.disabled { pointer-events: none; opacity: 0.7; }
+  .quiz-explain {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: none;
+  }
+  .quiz-explain.show { display: block; }
+  .quiz-explain.right { background: var(--green-light); color: #14532d; }
+  .quiz-explain.wrong-exp { background: #fef2f2; color: #7f1d1d; }
+
+  /* Expandable sections */
+  .expand-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text);
+  }
+  .expand-header:hover { color: var(--primary); }
+  .expand-arrow {
+    transition: transform 0.3s;
+    font-size: 0.8rem;
+  }
+  .expand-header.open .expand-arrow { transform: rotate(180deg); }
+  .expand-body {
+    display: none;
+    padding: 0.75rem 0;
+    font-size: 0.9rem;
+  }
+  .expand-body.open { display: block; }
+
+  /* Flashcard */
+  .flashcard-container { perspective: 1000px; margin: 1rem 0; }
+  .flashcard {
+    width: 100%;
+    min-height: 160px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .flashcard-front {
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .flashcard-back {
+    background: linear-gradient(135deg, var(--green), #166534);
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .flashcard-hint {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+
+  /* Interactive comparison */
+  .compare-toggle {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    margin: 0.75rem 0;
+  }
+  .compare-btn {
+    flex: 1;
+    padding: 0.6rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: white;
+    transition: all 0.2s;
+    border: none;
+  }
+  .compare-btn.active {
+    background: var(--primary);
+    color: white;
+  }
+  .compare-content {
+    display: none;
+    padding: 0.75rem;
+    background: #f5f5f4;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .compare-content.active { display: block; }
+
+  /* Mnemonic */
+  .mnemonic {
+    background: linear-gradient(135deg, #fdf4ff, #f3e8ff);
+    border: 2px solid var(--purple);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin: 0.75rem 0;
+    text-align: center;
+  }
+  .mnemonic-title {
+    font-weight: 800;
+    color: var(--purple);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .mnemonic-letters {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+  }
+  .mnemonic-letter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mnemonic-char {
+    width: 36px;
+    height: 36px;
+    background: var(--purple);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .mnemonic-word {
+    font-size: 0.7rem;
+    color: var(--purple);
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+
+  /* Score badge */
+  .score-badge {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 24px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* Navigation buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    background: white;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .nav-btn.primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .nav-btn.primary:hover { background: var(--primary-dark); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+  .footer a { color: var(--primary); text-decoration: none; }
+
+  /* Lists */
+  ul.info-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.info-list li {
+    padding: 0.3rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+    font-size: 0.9rem;
+  }
+  ul.info-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .content { padding: 1rem; }
+    .card { padding: 1rem; }
+    .spectrum { flex-direction: column; }
+    .spectrum-item { padding: 0.5rem; }
+    .gene { width: 24px; height: 24px; font-size: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧬 Alpha Thalassaemia</h1>
+  <p>Comprehensive Interactive Learning Guide</p>
+  <div class="badge">Based on Bain, Haemoglobinopathy Diagnosis, 3rd Ed (2020) &bull; #BloodDoctor</div>
+</div>
+
+<div class="progress-container">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 9 sections</div>
+</div>
+
+<div class="nav">
+  <div class="nav-inner" id="navTabs"></div>
+</div>
+
+<div class="content" id="mainContent">
+
+<!-- ============ SECTION 1: OVERVIEW ============ -->
+<div class="section active" id="sec-overview">
+  <div class="card">
+    <h2>What is Alpha Thalassaemia?</h2>
+    <p>Alpha thalassaemia results from <strong>reduced or absent synthesis of α-globin chains</strong>, most often caused by deletions of one or more of the four α-globin genes on chromosome 16 (16p13.3).</p>
+
+    <div class="key-fact">
+      <strong>Core concept:</strong> Normally, we have <strong>4 copies of the α-globin gene</strong> — two on each chromosome 16 (designated αα/αα). The clinical severity of alpha thalassaemia depends on how many genes are affected.
+    </div>
+
+    <h3>The Alpha Gene Cluster</h3>
+    <p>The α-globin gene cluster spans ~26 kb on chromosome 16p13.3, arranged as:</p>
+    <div style="text-align:center; margin:1rem 0; font-family: monospace; font-size:0.9rem; background:#f5f5f4; padding:1rem; border-radius:8px; overflow-x:auto;">
+      5' — ζ — ψζ — μ — ψα1 — <strong style="color:var(--primary)">α2</strong> — <strong style="color:var(--primary)">α1</strong> — θ — 3'
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Clinical Pearl</div>
+      <p>The <strong>α2 gene</strong> produces 2–3× more mRNA than α1. This is why mutations in α2 cause more severe disease than equivalent mutations in α1.</p>
+    </div>
+
+    <h3>Upstream Regulatory Element</h3>
+    <p>A major regulatory element called <strong>LCRA (Locus Control Region Alpha)</strong> or <strong>HS-40</strong> lies ~40 kb upstream. Deletion of this region silences α-gene expression from that chromosome despite intact α genes — a cause of α0 thalassaemia.</p>
+  </div>
+
+  <div class="card">
+    <h2>Clinical Spectrum — Click to Explore</h2>
+    <div class="spectrum">
+      <div class="spectrum-item spectrum-s1 sel" onclick="showSpectrum(0)">
+        <div style="font-size:1.2rem">1 gene</div>Silent Carrier
+      </div>
+      <div class="spectrum-item spectrum-s2" onclick="showSpectrum(1)">
+        <div style="font-size:1.2rem">2 genes</div>α-Thal Trait
+      </div>
+      <div class="spectrum-item spectrum-s3" onclick="showSpectrum(2)">
+        <div style="font-size:1.2rem">3 genes</div>Hb H Disease
+      </div>
+      <div class="spectrum-item spectrum-s4" onclick="showSpectrum(3)">
+        <div style="font-size:1.2rem">4 genes</div>Hb Bart's Hydrops
+      </div>
+    </div>
+    <div class="spectrum-detail" id="spectrumDetail">
+      <strong>Silent carrier (–α/αα):</strong> One α gene deleted/inactivated. Usually completely asymptomatic with normal or borderline MCV/MCH. Detected by DNA analysis or Hb Bart's (1–2%) at birth. Important for genetic counselling.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 Quick Check: How many α-globin genes does a normal person have?</div>
+      <div class="quiz-options" id="q-overview">
+        <div class="quiz-opt" onclick="checkQuiz('q-overview', this, false)">2 (one on each chromosome 16)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-overview', this, true)">4 (two on each chromosome 16)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-overview', this, false)">6 (three on each chromosome 16)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-overview', this, false)">2 (both on the same chromosome)</div>
+      </div>
+      <div class="quiz-explain right" id="q-overview-right">Correct! Normal genotype is αα/αα — two α genes (α2 and α1) on each copy of chromosome 16, totalling 4 functional genes.</div>
+      <div class="quiz-explain wrong-exp" id="q-overview-wrong">Not quite. The normal genotype is αα/αα — two α genes on each chromosome 16, for a total of 4 functional α-globin genes.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <div></div>
+    <button class="nav-btn primary" onclick="goSection(1)">Next: Genetics →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 2: GENETICS ============ -->
+<div class="section" id="sec-genetics">
+  <div class="card">
+    <h2>Deletional Alpha Thalassaemia</h2>
+    <p>Most alpha thalassaemias are caused by <strong>gene deletions</strong> due to unequal crossing-over between misaligned α genes during meiosis.</p>
+
+    <h3>α⁺ Thalassaemia (Single Gene Deletion)</h3>
+    <div class="key-fact green">
+      <strong>–α<sup>3.7</sup> (rightward deletion):</strong> 3.7 kb deleted. The most common α thalassaemia worldwide. Results from misalignment between α2 and α1 genes → fusion gene with α2 promoter + α1 coding region.
+    </div>
+    <div class="key-fact green">
+      <strong>–α<sup>4.2</sup> (leftward deletion):</strong> 4.2 kb deleted. Less common. The reciprocal product of unequal crossing-over. Produces an anti-3.7 chromosome with 3 α genes.
+    </div>
+
+    <h3>α⁰ Thalassaemia (Two-Gene Deletion)</h3>
+    <p>Both α genes on the same chromosome are deleted. Denoted <strong>– –</strong>.</p>
+
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Deletion</th><th>Size</th><th>Distribution</th></tr>
+        <tr><td><strong>– –<sup>SEA</sup></strong></td><td>~20 kb</td><td>South-East Asia, southern China</td></tr>
+        <tr><td><strong>– –<sup>FIL</sup></strong></td><td>~30 kb</td><td>Philippines</td></tr>
+        <tr><td><strong>– –<sup>THAI</sup></strong></td><td>~34 kb</td><td>Thailand</td></tr>
+        <tr><td><strong>– –<sup>MED</sup></strong></td><td>~18 kb</td><td>Mediterranean (Greece, Turkey, Cyprus)</td></tr>
+        <tr><td><strong>– –<sup>SA</sup></strong></td><td>Variable</td><td>South Africa</td></tr>
+        <tr><td><strong>– –<sup>BRIT</sup></strong></td><td>Variable</td><td>UK / Northern European</td></tr>
+      </table>
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Why Geography Matters</div>
+      <p>α⁰ thalassaemia is predominantly found in <strong>South-East Asia</strong> and the <strong>Mediterranean</strong>. It is rare in Sub-Saharan Africa. This means Hb Bart's hydrops fetalis occurs mainly in SE Asian populations, while α⁺ thalassaemia is extremely common in Africa (up to 58% in some regions).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Non-Deletional Alpha Thalassaemia</h2>
+    <p>Point mutations and small insertions/deletions can also reduce or abolish α-globin production. These are generally <strong>more severe</strong> than deletional forms.</p>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Types of Non-Deletional Mutations
+      <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <ul class="info-list">
+        <li><strong>RNA splice site mutations</strong> — disrupt mRNA processing</li>
+        <li><strong>Polyadenylation signal mutations</strong> — unstable mRNA, reduced production</li>
+        <li><strong>Initiation codon mutations</strong> — no translation starts</li>
+        <li><strong>Frameshift / nonsense mutations</strong> — truncated, non-functional protein</li>
+        <li><strong>Termination codon mutations</strong> — extended reading frame → abnormal haemoglobin (e.g., Hb Constant Spring)</li>
+        <li><strong>Mutations causing unstable α chains</strong> — protein degraded in erythroblasts</li>
+      </ul>
+    </div>
+
+    <h3>Hb Constant Spring — The Key Example</h3>
+    <div class="key-fact purple">
+      <strong>Hb Constant Spring (Hb CS):</strong> Stop codon mutation TAA→CAA in HBA2. The α chain extends to <strong>172 amino acids</strong> (instead of 141). The mRNA is unstable → only ~1–2% Hb CS detectable by HPLC. Common in SE Asia (up to 8% in Thailand). Named after the hospital in Jamaica where it was first identified.
+    </div>
+
+    <div class="key-fact red">
+      <strong>Key rule:</strong> Non-deletional Hb H disease (e.g., – –<sup>SEA</sup>/α<sup>CS</sup>α) is generally <strong>more severe</strong> than deletional Hb H disease (e.g., – –<sup>SEA</sup>/–α<sup>3.7</sup>), with more anaemia, larger spleen, and higher transfusion requirement.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>ATRX Syndrome</h3>
+    <p>An <strong>X-linked</strong> condition caused by mutations in the <strong>ATRX gene</strong> (Xq13.3), encoding a DNA helicase involved in chromatin remodelling. Affected males have:</p>
+    <ul class="info-list">
+      <li><strong>Mild Hb H disease</strong> — usually only detectable Hb H inclusions</li>
+      <li><strong>Intellectual disability</strong> — moderate to severe</li>
+      <li><strong>Facial dysmorphism</strong></li>
+      <li><strong>Short stature</strong></li>
+      <li><strong>Genital abnormalities</strong> — hypospadias, undescended testes</li>
+    </ul>
+    <div class="key-fact teal">
+      <strong>Acquired ATRX mutations</strong> can occur as somatic mutations in myelodysplastic syndromes and related myeloid neoplasms, causing acquired Hb H disease.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 Why is non-deletional Hb H disease more severe than deletional?</div>
+      <div class="quiz-options" id="q-genetics">
+        <div class="quiz-opt" onclick="checkQuiz('q-genetics', this, false)">The remaining α gene is on the wrong chromosome</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-genetics', this, true)">The mutant α chain or unstable mRNA reduces output more than a simple deletion</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-genetics', this, false)">Non-deletional forms always affect all 4 genes</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-genetics', this, false)">Deletional forms are compensated by γ-globin expression</div>
+      </div>
+      <div class="quiz-explain right" id="q-genetics-right">Correct! Non-deletional mutations often produce unstable mRNA or abnormal proteins that may interfere with erythropoiesis more than a clean gene deletion. Additionally, some mutant α chains are unstable and precipitate, causing additional cell damage.</div>
+      <div class="quiz-explain wrong-exp" id="q-genetics-wrong">The key reason is that non-deletional mutations often produce unstable mRNA/protein that interferes with erythropoiesis more than a clean deletion. Some produce abnormal α chains that precipitate and damage cells.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(0)">← Overview</button>
+    <button class="nav-btn primary" onclick="goSection(2)">Next: Prevalence →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 3: PREVALENCE ============ -->
+<div class="section" id="sec-prevalence">
+  <div class="card">
+    <h2>Global Prevalence</h2>
+    <p>Alpha thalassaemia is the <strong>most common single-gene disorder worldwide</strong>. The α⁺ thalassaemia allele occurs across a vast tropical/subtropical belt.</p>
+
+    <h3>α⁺ Thalassaemia (Single Gene Deletion)</h3>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Region</th><th>Prevalence</th></tr>
+        <tr><td>Papua New Guinea (coastal)</td><td><strong>62%</strong></td></tr>
+        <tr><td>Solomon Islands</td><td><strong>45%</strong></td></tr>
+        <tr><td>Sub-Saharan Africa</td><td><strong>25–58%</strong></td></tr>
+        <tr><td>India</td><td>15–30%</td></tr>
+        <tr><td>South-East Asia</td><td>5–30%</td></tr>
+        <tr><td>Middle East</td><td>1–18%</td></tr>
+        <tr><td>Mediterranean</td><td>1–12%</td></tr>
+      </table>
+    </div>
+
+    <h3>α⁰ Thalassaemia (Two-Gene Deletion)</h3>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Region</th><th>Prevalence</th></tr>
+        <tr><td>Thailand</td><td><strong>3–14%</strong></td></tr>
+        <tr><td>Hong Kong Chinese</td><td><strong>4.5%</strong></td></tr>
+        <tr><td>Greece / Turkey / Cyprus</td><td>Low (variable)</td></tr>
+        <tr><td>Sardinia</td><td>Rare</td></tr>
+        <tr><td>Sub-Saharan Africa</td><td><strong>Very rare</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Malaria Selection</div>
+      <p>The high prevalence of α⁺ thalassaemia in malaria-endemic regions provides evidence of <strong>natural selection</strong>. Heterozygous and homozygous α⁺ thalassaemia carriers have survival advantage against <em>Plasmodium falciparum</em> malaria.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>UK Perspective</h2>
+    <div class="key-fact">
+      In the UK, <strong>20–30 pregnancies per year</strong> are at risk of Hb Bart's hydrops fetalis. The NHS Sickle Cell and Thalassaemia Screening Programme screens all pregnant women in high-prevalence areas and offers prenatal diagnosis to at-risk couples.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 Why is Hb Bart's hydrops fetalis extremely rare in populations of African origin?</div>
+      <div class="quiz-options" id="q-prev">
+        <div class="quiz-opt" onclick="checkQuiz('q-prev', this, false)">Africans have protective Hb F levels</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-prev', this, true)">α⁰ thalassaemia (– –) is very rare in Africa — most α-thal is α⁺ (single gene deletion)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-prev', this, false)">G6PD deficiency prevents Hb Bart's formation</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-prev', this, false)">α thalassaemia does not occur in Africa</div>
+      </div>
+      <div class="quiz-explain right" id="q-prev-right">Correct! α⁰ thalassaemia (two-gene deletion on the SAME chromosome) is extremely rare in Africa. Without α⁰ alleles, you cannot produce a child homozygous for α⁰ (needed for Hb Bart's hydrops). α⁺ thalassaemia is very common in Africa, but homozygous α⁺ (–α/–α) only gives trait, not hydrops.</div>
+      <div class="quiz-explain wrong-exp" id="q-prev-wrong">The key reason: α⁰ thalassaemia (deletion of BOTH genes on one chromosome) is extremely rare in Africa. Hb Bart's hydrops requires homozygous α⁰ (– –/– –), which needs two α⁰ carrier parents. α⁺ (single gene deletion) is common in Africa, but at most produces trait (–α/–α).</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(1)">← Genetics</button>
+    <button class="nav-btn primary" onclick="goSection(3)">Next: Alpha Trait →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 4: ALPHA THAL TRAIT ============ -->
+<div class="section" id="sec-trait">
+  <div class="card">
+    <h2>Alpha Thalassaemia Trait (Two Genes Affected)</h2>
+    <p>Two possible genotypes produce α-thal trait, with <strong>important genetic counselling differences</strong>:</p>
+
+    <div class="compare-toggle">
+      <button class="compare-btn active" onclick="showCompare('trait', 0)">α⁺ Homozygote (–α/–α)</button>
+      <button class="compare-btn" onclick="showCompare('trait', 1)">α⁰ Heterozygote (– –/αα)</button>
+    </div>
+    <div class="compare-content active" id="trait-0">
+      <p><strong>Genotype: –α/–α</strong> (one gene deleted from each chromosome)</p>
+      <p><strong>Geographic:</strong> Common in Africa, Middle East, India, SE Asia</p>
+      <p><strong>Counselling:</strong> Children inherit –α from each parent → maximum risk is another –α/–α (trait). <strong>Cannot produce Hb H disease or hydrops.</strong></p>
+      <p><strong>Lab:</strong> Mild microcytosis (MCV 70–80 fL), MCH 22–26 pg, normal Hb A₂, normal or trivially reduced Hb</p>
+    </div>
+    <div class="compare-content" id="trait-1">
+      <p><strong>Genotype: – –/αα</strong> (both genes deleted from one chromosome)</p>
+      <p><strong>Geographic:</strong> SE Asia (– –<sup>SEA</sup>), Mediterranean (– –<sup>MED</sup>)</p>
+      <p><strong>Counselling:</strong> Can pass – – allele to children. If partner also carries – – → risk of <strong>Hb Bart's hydrops fetalis</strong>. If partner carries –α → risk of <strong>Hb H disease</strong>.</p>
+      <p><strong>Lab:</strong> Very similar to –α/–α: mild microcytosis, normal/reduced Hb A₂. <strong>Cannot be distinguished from homozygous α⁺ without DNA analysis.</strong></p>
+    </div>
+
+    <div class="key-fact red">
+      <strong>Critical distinction:</strong> Both genotypes (–α/–α and – –/αα) look identical on FBC and HPLC. Only <strong>DNA analysis</strong> can distinguish them. This distinction is essential for genetic counselling in couples at risk.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Laboratory Features of α-Thal Trait</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Parameter</th><th>Typical Value</th><th>Notes</th></tr>
+        <tr><td>Haemoglobin</td><td>Normal or slightly ↓</td><td>Usually ≥120 g/L in women</td></tr>
+        <tr><td>RBC Count</td><td>Normal or ↑</td><td>Often increased</td></tr>
+        <tr><td>MCV</td><td>70–80 fL</td><td>Reduced but less than iron deficiency</td></tr>
+        <tr><td>MCH</td><td>22–26 pg</td><td>Reduced</td></tr>
+        <tr><td>Hb A₂</td><td>Normal or slightly ↓</td><td>1.5–3.0%</td></tr>
+        <tr><td>Hb Bart's (birth)</td><td>5–10%</td><td>Disappears by 3–6 months; higher in α⁰ trait</td></tr>
+        <tr><td>Blood film</td><td>Hypochromic, microcytic</td><td>Some target cells</td></tr>
+        <tr><td>Iron studies</td><td>Normal</td><td>Exclude iron deficiency first</td></tr>
+      </table>
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Diagnostic Approach</div>
+      <p>Suspect α-thal trait when: microcytic indices + normal iron studies + normal/low Hb A₂ + no β-thal mutation. <strong>In β-thal trait, Hb A₂ is raised (>3.5%)</strong> — this is the key differentiator. If Hb A₂ is normal with microcytosis and normal iron, think α-thalassaemia.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Hb Bart's at Birth — Neonatal Screening</h2>
+    <p>Hb Bart's (γ₄) is present at birth in alpha thalassaemia but disappears within months as γ chains decline and β chains replace them. Neonatal screening detects Hb Bart's by HPLC or isoelectric focusing.</p>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Genotype</th><th>Hb Bart's at Birth</th></tr>
+        <tr><td>Silent carrier (–α/αα)</td><td>1–2%</td></tr>
+        <tr><td>α-thal trait (–α/–α or – –/αα)</td><td>5–10%</td></tr>
+        <tr><td>Hb H disease</td><td>20–25% (up to 40%)</td></tr>
+        <tr><td>Hb Bart's hydrops fetalis</td><td>>80%</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 A patient has MCV 75 fL, MCH 24 pg, normal Hb A₂ (2.5%), and normal iron studies. What is the most likely diagnosis?</div>
+      <div class="quiz-options" id="q-trait">
+        <div class="quiz-opt" onclick="checkQuiz('q-trait', this, false)">Beta thalassaemia trait</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-trait', this, true)">Alpha thalassaemia trait</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-trait', this, false)">Iron deficiency anaemia</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-trait', this, false)">Sideroblastic anaemia</div>
+      </div>
+      <div class="quiz-explain right" id="q-trait-right">Correct! Microcytosis + normal iron + normal Hb A₂ is the classic pattern of α-thal trait. In β-thal trait, Hb A₂ would be raised (>3.5%). In iron deficiency, iron studies would be abnormal. DNA analysis would confirm the specific genotype.</div>
+      <div class="quiz-explain wrong-exp" id="q-trait-wrong">The answer is α-thal trait. Key reasoning: Microcytosis with normal iron studies excludes iron deficiency. Normal Hb A₂ excludes β-thal trait (which has raised Hb A₂ >3.5%). The combination of mild microcytosis + normal Hb A₂ + normal iron = classic α-thal trait pattern.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(2)">← Prevalence</button>
+    <button class="nav-btn primary" onclick="goSection(4)">Next: Hb H Disease →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 5: HB H DISEASE ============ -->
+<div class="section" id="sec-hbh">
+  <div class="card">
+    <h2>Hb H Disease — Three Genes Affected</h2>
+    <p>Hb H disease results from loss/inactivation of <strong>3 of 4 α-globin genes</strong>, most commonly as compound heterozygosity for α⁰ and α⁺ thalassaemia.</p>
+
+    <h3>Genotype Examples</h3>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Type</th><th>Genotype</th><th>Severity</th></tr>
+        <tr><td>Deletional</td><td>– –<sup>SEA</sup>/–α<sup>3.7</sup></td><td>Mild–moderate</td></tr>
+        <tr><td>Deletional</td><td>– –<sup>SEA</sup>/–α<sup>4.2</sup></td><td>Mild–moderate</td></tr>
+        <tr><td>Non-deletional</td><td>– –<sup>SEA</sup>/α<sup>CS</sup>α</td><td><strong>More severe</strong></td></tr>
+        <tr><td>Non-deletional</td><td>– –<sup>MED</sup>/α<sup>TSaudi</sup>α</td><td><strong>More severe</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="key-fact amber">
+      <strong>Severity hierarchy:</strong><br>
+      Homozygous/compound heterozygous non-deletional > Compound (deletional + non-deletional) > Deletional only<br><br>
+      Also: <strong>HBA2 mutations > HBA1 mutations</strong> (because α2 produces 2–3× more mRNA)
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pathophysiology</h2>
+    <p>With only one functional α gene, there is a large excess of β chains. These form <strong>β₄ tetramers (Hb H)</strong>.</p>
+
+    <div class="flashcard-container">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-front">
+          <div>Why is Hb H (β₄) a bad oxygen carrier?</div>
+          <div class="flashcard-hint">Tap to reveal</div>
+        </div>
+        <div class="flashcard-back">
+          Hb H has a <strong>very high oxygen affinity</strong> with a <strong>hyperbolic</strong> (not sigmoidal) oxygen dissociation curve. It does NOT show cooperativity. This means it binds oxygen avidly but fails to release it to tissues effectively.
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard-container">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-front">
+          <div>How does Hb H disease differ from β-thal major in pathophysiology?</div>
+          <div class="flashcard-hint">Tap to reveal</div>
+        </div>
+        <div class="flashcard-back">
+          In β-thal major, <strong>ineffective erythropoiesis</strong> dominates (α chain precipitates damage erythroblasts in marrow).<br><br>
+          In Hb H disease, <strong>haemolysis</strong> is more important — Hb H precipitates as Heinz bodies in circulating red cells, causing membrane damage and splenic destruction.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Laboratory Features</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Parameter</th><th>Deletional</th><th>Non-deletional</th></tr>
+        <tr><td>Haemoglobin</td><td>70–100 g/L</td><td>Lower (30–80 g/L)</td></tr>
+        <tr><td>MCV</td><td><strong>50–65 fL</strong> (mean 58)</td><td>Higher (mean 69 fL)</td></tr>
+        <tr><td>MCH</td><td>15–20 pg</td><td>15–20 pg</td></tr>
+        <tr><td>MCHC</td><td>250–300 g/L</td><td>Lower</td></tr>
+        <tr><td>Reticulocytes</td><td>Mildly raised</td><td>Higher</td></tr>
+        <tr><td>Hb H %</td><td>8–10%</td><td>Higher (up to 40%)</td></tr>
+        <tr><td>Hb A₂</td><td>~1% (reduced)</td><td>Even lower (~0.7%)</td></tr>
+        <tr><td>Hb Bart's (birth)</td><td>20–25%</td><td>Higher</td></tr>
+      </table>
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Why is MCV Higher in Non-Deletional?</div>
+      <p>Counterintuitive! More severe disease = higher MCV. This is because non-deletional Hb H disease has greater reticulocytosis and more haemolysis. Reticulocytes are larger cells, raising the mean MCV. Also, MCHC is lower because there is more intracellular water relative to haemoglobin.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Blood Film & Special Investigations</h2>
+    <h3>Blood Film</h3>
+    <ul class="info-list">
+      <li><strong>Striking anisocytosis and poikilocytosis</strong></li>
+      <li>Hypochromic, microcytic red cells</li>
+      <li>Target cells</li>
+      <li>Red cell fragments</li>
+      <li>Tear drop poikilocytes</li>
+    </ul>
+
+    <h3>Hb H Inclusion Preparation</h3>
+    <div class="key-fact purple">
+      <strong>"Golf ball" inclusions:</strong> Supravital staining with <strong>brilliant cresyl blue</strong> reveals multiple small, uniformly distributed inclusions in 35–90% of red cells. These represent precipitated β₄ tetramers attached to the red cell membrane. This is the classic diagnostic test for Hb H disease.
+    </div>
+
+    <h3>HPLC / Capillary Electrophoresis</h3>
+    <ul class="info-list">
+      <li>Hb H elutes as a <strong>fast-moving haemoglobin</strong></li>
+      <li>On Bio-Rad Variant HPLC: characteristically <strong>double peak</strong> in the Hb H window</li>
+      <li>On capillary electrophoresis: <strong>single peak</strong> (methods differ)</li>
+      <li>Hb A₂ reduced (1–2%)</li>
+      <li>In neonates: elevated Hb Bart's (20–25%)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 A blood film shows marked hypochromia, target cells, and brilliant cresyl blue stain reveals "golf ball" inclusions in 60% of red cells. The HPLC shows a fast-moving band at 8%. What is the diagnosis?</div>
+      <div class="quiz-options" id="q-hbh">
+        <div class="quiz-opt" onclick="checkQuiz('q-hbh', this, false)">Beta thalassaemia major</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hbh', this, true)">Hb H disease</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hbh', this, false)">Hb Bart's hydrops fetalis</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hbh', this, false)">Sickle cell disease</div>
+      </div>
+      <div class="quiz-explain right" id="q-hbh-right">Correct! The "golf ball" inclusions with brilliant cresyl blue are pathognomonic for Hb H disease. The fast-moving band on HPLC at ~8% represents Hb H (β₄ tetramers). The marked hypochromia and target cells are consistent with the severe α chain deficit.</div>
+      <div class="quiz-explain wrong-exp" id="q-hbh-wrong">This is Hb H disease. The "golf ball" inclusions with brilliant cresyl blue are pathognomonic. The fast-moving band at 8% on HPLC = Hb H (β₄). Beta thalassaemia major would show Hb F >90% with no Hb H. Hb Bart's hydrops is incompatible with extrauterine life in most cases.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(3)">← Alpha Trait</button>
+    <button class="nav-btn primary" onclick="goSection(5)">Next: Hb H Complications →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 6: HB H COMPLICATIONS ============ -->
+<div class="section" id="sec-hbh-comp">
+  <div class="card">
+    <h2>Complications of Hb H Disease</h2>
+
+    <div class="mnemonic">
+      <div class="mnemonic-title">🧠 Memorise: "GHILO-PP"</div>
+      <div class="mnemonic-letters">
+        <div class="mnemonic-letter"><div class="mnemonic-char">G</div><div class="mnemonic-word">Gallstones</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">H</div><div class="mnemonic-word">Haemolytic</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">I</div><div class="mnemonic-word">Iron overload</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">L</div><div class="mnemonic-word">Leg ulcers</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">O</div><div class="mnemonic-word">Osteoporosis</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">P</div><div class="mnemonic-word">Pulm HTN</div></div>
+        <div class="mnemonic-letter"><div class="mnemonic-char">P</div><div class="mnemonic-word">Pregnancy</div></div>
+      </div>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Gallstones <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Chronic haemolysis → increased bilirubin → pigment gallstones. Reported in 11/72 patients in one study (15%). May cause cholecystitis or obstructive jaundice.</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Iron Overload <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Even <strong>non-transfusion-dependent</strong> patients can develop iron overload from increased intestinal absorption (driven by suppressed hepcidin from ineffective erythropoiesis). Leads to liver fibrosis/cirrhosis. Monitor serum ferritin and liver iron (MRI T2*).</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Acute Haemolytic Crises <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Precipitated by: <strong>Infections</strong> (especially febrile illness), <strong>pregnancy</strong>, <strong>oxidant drugs</strong> (sulphonamides, dapsone). The Hb can drop precipitously. May require urgent transfusion. Oxidant stress increases Hb H precipitation on red cell membranes.</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Pregnancy Complications <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Adverse outcomes include: worsening anaemia, increased transfusion requirement, pre-eclampsia, intrauterine growth restriction. Non-deletional Hb H carries higher pregnancy risk than deletional.</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Post-Splenectomy Risks <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Splenectomy raises Hb but increases risk of <strong>venous thromboembolism</strong>. Post-splenectomy blood films show Heinz bodies (precipitated Hb H) that were previously removed by the spleen. Lifelong thromboprophylaxis awareness needed.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Emerging Therapy: Mitapivat</h2>
+    <div class="key-fact green">
+      <strong>Mitapivat</strong> is a <strong>pyruvate kinase activator</strong> that has shown promising results in Hb H disease, with rises in haemoglobin. It works by increasing ATP production in red cells, improving their energy metabolism and survival. Currently under investigation.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Coinheritance Patterns</h2>
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Hb H + β-Thalassaemia <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Coinheritance of Hb H disease with β-thal trait produces <strong>milder disease</strong> than Hb H alone. Why? The reduced β chain production better balances the reduced α chain production → less chain imbalance → more balanced erythropoiesis. Results in moderate anaemia with <strong>very marked microcytosis</strong>.</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Alpha Thalassaemia + Sickle Cell <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Coinheritance of α-thal with Hb S <strong>reduces Hb S percentage</strong> and <strong>reduces MCHC</strong>, both of which reduce sickling tendency. However, it also increases RBC count and blood viscosity, which may partly offset the benefit.</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      G6PD & Alpha Thalassaemia <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>G6PD levels are often <strong>spuriously elevated</strong> in Hb H disease due to reticulocytosis (reticulocytes have higher G6PD activity). This can mask true G6PD deficiency. Test interpretation must account for the reticulocyte count.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 A patient with Hb H disease develops sudden worsening of anaemia (Hb drops from 85 to 55 g/L) during a febrile illness. What is the mechanism?</div>
+      <div class="quiz-options" id="q-comp">
+        <div class="quiz-opt" onclick="checkQuiz('q-comp', this, false)">Aplastic crisis from parvovirus B19</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-comp', this, true)">Acute haemolysis from increased oxidant stress causing Hb H precipitation</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-comp', this, false)">Splenic sequestration crisis</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-comp', this, false)">Folate deficiency megaloblastic crisis</div>
+      </div>
+      <div class="quiz-explain right" id="q-comp-right">Correct! Febrile illness generates oxidant stress which accelerates Hb H (β₄) precipitation and Heinz body formation on the red cell membrane, leading to acute haemolysis. This is a well-recognised complication of Hb H disease. Parvovirus aplastic crises occur but cause reticulocyte drop, not acute haemolysis.</div>
+      <div class="quiz-explain wrong-exp" id="q-comp-wrong">The mechanism is acute haemolysis from oxidant stress. Fever and infection increase oxidant stress → accelerated Hb H (β₄) precipitation → Heinz body formation → membrane damage → acute haemolysis. Parvovirus causes aplastic crisis (reticulocyte drop), which is different from haemolytic crisis.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(4)">← Hb H Disease</button>
+    <button class="nav-btn primary" onclick="goSection(6)">Next: Hb Bart's Hydrops →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 7: HB BART'S HYDROPS ============ -->
+<div class="section" id="sec-hydrops">
+  <div class="card">
+    <h2>Hb Bart's Hydrops Fetalis — Four Genes Affected</h2>
+    <p>The most severe form of α thalassaemia. <strong>Homozygosity for α⁰ thalassaemia (– –/– –)</strong> results in complete absence of α chain synthesis.</p>
+
+    <div class="key-fact red">
+      <strong>No α chains</strong> → No Hb F (α₂γ₂), No Hb A (α₂β₂), No Hb A₂ (α₂δ₂). The predominant haemoglobin is <strong>Hb Bart's (γ₄)</strong> which has extremely high oxygen affinity and <strong>cannot effectively deliver oxygen to tissues</strong>.
+    </div>
+
+    <h3>How Does the Fetus Survive to the Third Trimester?</h3>
+    <div class="flashcard-container">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-front">
+          <div>What haemoglobin keeps the fetus alive?</div>
+          <div class="flashcard-hint">Tap to reveal</div>
+        </div>
+        <div class="flashcard-back">
+          <strong>Hb Portland 1 (ζ₂γ₂)</strong> — an embryonic haemoglobin with sigmoidal oxygen dissociation curve capable of oxygen delivery. Small amounts of <strong>Hb Portland 2 (ζ₂β₂)</strong> and <strong>Hb H (β₄)</strong> may also be present.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Clinical Features</h2>
+    <ul class="info-list">
+      <li><strong>Severe anaemia</strong> — Hb often 30–80 g/L</li>
+      <li><strong>Massive hepatosplenomegaly</strong> — extramedullary haemopoiesis in liver</li>
+      <li><strong>Cardiac failure</strong> — high-output failure from severe anaemia</li>
+      <li><strong>Hydrops fetalis</strong> — generalised oedema, serous effusions (ascites, pleural, pericardial)</li>
+      <li><strong>Hypoalbuminaemia</strong> — liver parenchyma replaced by haemopoietic tissue</li>
+      <li><strong>Massive placenta</strong> — oedematous, pale</li>
+    </ul>
+
+    <h3>Developmental Abnormalities</h3>
+    <p>Survivors (rescued by intrauterine transfusion) may have:</p>
+    <ul class="info-list">
+      <li><strong>Cardiac defects</strong> — ASD, PDA</li>
+      <li><strong>Genital abnormalities</strong> — hypospadias, undescended testes</li>
+      <li><strong>Limb defects</strong></li>
+      <li><strong>Pulmonary hypoplasia</strong></li>
+      <li><strong>Brain growth retardation</strong></li>
+    </ul>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 Maternal Complications</div>
+      <p>Carrying a hydropic fetus puts the <strong>mother</strong> at risk of pre-eclampsia, obstructed labour (due to massive placenta and fetal hepatosplenomegaly), and postpartum haemorrhage. This is sometimes called the "mirror syndrome" or Ballantyne syndrome.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Diagnosis & Common Genotypes</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Genotype</th><th>Population</th></tr>
+        <tr><td>– –<sup>SEA</sup> / – –<sup>SEA</sup></td><td>South-East Asia (most common)</td></tr>
+        <tr><td>– –<sup>MED</sup> / – –<sup>MED</sup></td><td>Mediterranean</td></tr>
+        <tr><td>– –<sup>SEA</sup> / – –<sup>THAI</sup></td><td>Thailand</td></tr>
+        <tr><td>– –<sup>SEA</sup> / – –<sup>FIL</sup></td><td>Philippines</td></tr>
+      </table>
+    </div>
+
+    <div class="key-fact teal">
+      <strong>Prenatal detection:</strong> Can be detected from <strong>12 weeks gestation</strong> by middle cerebral artery Doppler ultrasonography showing raised peak systolic velocity (indicating fetal anaemia). Earlier diagnosis possible by CVS or amniocentesis for DNA analysis.
+    </div>
+
+    <h3>Increasing Survival with Intrauterine Transfusion</h3>
+    <p>Historically always fatal. Now, with <strong>intrauterine blood transfusion</strong> programmes, some affected fetuses survive to delivery and beyond. Survivors require <strong>lifelong transfusion</strong> (like β-thal major), but may have earlier iron overload and more endocrine complications compared to β-thal major.</p>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 What haemoglobin is responsible for oxygen delivery to tissues in a fetus with Hb Bart's hydrops fetalis?</div>
+      <div class="quiz-options" id="q-hydrops">
+        <div class="quiz-opt" onclick="checkQuiz('q-hydrops', this, false)">Hb Bart's (γ₄)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hydrops', this, false)">Hb H (β₄)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hydrops', this, true)">Hb Portland 1 (ζ₂γ₂)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-hydrops', this, false)">Hb F (α₂γ₂)</div>
+      </div>
+      <div class="quiz-explain right" id="q-hydrops-right">Correct! Hb Portland 1 (ζ₂γ₂) is the key haemoglobin that sustains fetal life. Unlike Hb Bart's (γ₄) which has a hyperbolic curve and extremely high O₂ affinity, Hb Portland 1 has a sigmoidal curve and can deliver oxygen. Hb F cannot be produced because there are no α chains.</div>
+      <div class="quiz-explain wrong-exp" id="q-hydrops-wrong">The answer is Hb Portland 1 (ζ₂γ₂). It uses the embryonic ζ chain instead of α chain. Hb Bart's (γ₄) has extremely high O₂ affinity (hyperbolic curve) and cannot deliver oxygen effectively. Hb F (α₂γ₂) cannot be made because there are no α chains. Hb Portland 1 sustains fetal life until the third trimester.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(5)">← Hb H Complications</button>
+    <button class="nav-btn primary" onclick="goSection(7)">Next: Diagnosis →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 8: DIAGNOSIS ============ -->
+<div class="section" id="sec-diagnosis">
+  <div class="card">
+    <h2>Diagnostic Approach to Alpha Thalassaemia</h2>
+    <p>Alpha thalassaemia diagnosis requires an integrated approach combining clinical suspicion, haematological indices, HPLC/capillary electrophoresis, and DNA analysis.</p>
+
+    <h3>Step-by-Step Algorithm</h3>
+    <div class="key-fact">
+      <strong>Step 1:</strong> Microcytosis (↓MCV) + hypochromia (↓MCH) on FBC<br>
+      <strong>Step 2:</strong> Exclude iron deficiency (check ferritin, iron studies)<br>
+      <strong>Step 3:</strong> Check Hb A₂ by HPLC/CE — if <strong>normal or low</strong>, suspect α-thal<br>
+      <strong>Step 4:</strong> If Hb A₂ raised (>3.5%), this is β-thal trait instead<br>
+      <strong>Step 5:</strong> DNA analysis for definitive genotyping (essential for counselling)<br>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>HPLC Patterns in Alpha Thalassaemia</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <tr><th>Condition</th><th>Hb A₂</th><th>Hb H</th><th>Other</th></tr>
+        <tr><td>Silent carrier</td><td>Normal</td><td>Absent</td><td>1–2% Hb Bart's (neonatal only)</td></tr>
+        <tr><td>α-thal trait</td><td>Normal/low-normal</td><td>Absent</td><td>5–10% Hb Bart's (neonatal only)</td></tr>
+        <tr><td>Hb H disease</td><td><strong>Reduced (1–2%)</strong></td><td><strong>1–40% (usually 8–10%)</strong></td><td>Double peak on HPLC</td></tr>
+        <tr><td>Hb H + Hb CS</td><td>Reduced</td><td>Present</td><td>Hb CS ~1–2% separate peak</td></tr>
+        <tr><td>Hb Bart's hydrops</td><td>Absent</td><td>Small amount</td><td>>80% Hb Bart's, Hb Portland</td></tr>
+      </table>
+    </div>
+
+    <div class="pearl">
+      <div class="pearl-title">💡 HPLC vs Capillary Electrophoresis</div>
+      <p>On Bio-Rad Variant HPLC, Hb H typically shows as a <strong>characteristic double peak</strong>. On capillary electrophoresis (Sebia), it appears as a <strong>single peak</strong>. Different platforms show different patterns — know your local system!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Special Diagnostic Tests</h2>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      Hb H Inclusion Test <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <p>Blood incubated with <strong>brilliant cresyl blue</strong> at 37°C for 1–2 hours. Hb H precipitates as multiple small, uniform inclusions giving the red cells a characteristic <strong>"golf ball"</strong> appearance. Positive in 35–90% of red cells in Hb H disease. Distinguishes Hb H from reticulocyte staining (reticulocytes show filamentous, not granular, staining).</p>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      DNA Analysis Methods <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <ul class="info-list">
+        <li><strong>Gap-PCR:</strong> For common deletions (–α³·⁷, –α⁴·², – –SEA, – –MED, – –FIL, – –THAI)</li>
+        <li><strong>MLPA (Multiplex Ligation-dependent Probe Amplification):</strong> Detects known and novel deletions</li>
+        <li><strong>Sanger sequencing:</strong> For non-deletional point mutations</li>
+        <li><strong>Next-generation sequencing:</strong> Comprehensive panel for all α and β globin variants</li>
+      </ul>
+    </div>
+
+    <div class="expand-header" onclick="toggleExpand(this)">
+      When is DNA Analysis Essential? <span class="expand-arrow">▼</span>
+    </div>
+    <div class="expand-body">
+      <ul class="info-list">
+        <li>Distinguishing –α/–α from – –/αα (critical for genetic counselling)</li>
+        <li>Prenatal diagnosis in at-risk pregnancies</li>
+        <li>Confirming Hb H disease genotype for prognostic purposes</li>
+        <li>Investigating discrepant results (e.g., microcytosis with normal HPLC)</li>
+        <li>Family studies when carrier status needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quiz-box">
+      <div class="quiz-q">🧪 A couple planning pregnancy: she has MCV 72, MCH 23, normal Hb A₂. He has MCV 74, MCH 24, normal Hb A₂. Both have normal iron studies. What is the critical next step?</div>
+      <div class="quiz-options" id="q-diag">
+        <div class="quiz-opt" onclick="checkQuiz('q-diag', this, false)">Reassure — both have benign trait, no risk to offspring</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-diag', this, false)">Check Hb electrophoresis on both</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-diag', this, true)">DNA analysis to determine if either carries α⁰ (– –) genotype</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-diag', this, false)">Repeat iron studies in 3 months</div>
+      </div>
+      <div class="quiz-explain right" id="q-diag-right">Correct! Both have α-thal trait phenotype (microcytic, normal Hb A₂, normal iron). But we CANNOT distinguish –α/–α from – –/αα without DNA. If both carry – – (α⁰), their child could have Hb Bart's hydrops fetalis (25% risk). DNA analysis is essential for accurate genetic counselling.</div>
+      <div class="quiz-explain wrong-exp" id="q-diag-wrong">DNA analysis is essential. Both have α-thal trait (microcytic, normal Hb A₂, normal iron), but we cannot distinguish –α/–α (no hydrops risk) from – –/αα (hydrops risk if BOTH carry – –). Only DNA analysis can determine the specific genotype for accurate genetic counselling.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(6)">← Hb Bart's Hydrops</button>
+    <button class="nav-btn primary" onclick="goSection(8)">Next: Summary & Quiz →</button>
+  </div>
+</div>
+
+<!-- ============ SECTION 9: SUMMARY & FINAL QUIZ ============ -->
+<div class="section" id="sec-summary">
+  <div class="card">
+    <h2>🎯 Key Take-Home Messages</h2>
+
+    <div class="key-fact green">
+      <strong>1. Gene counting matters:</strong> 4 α genes → Normal. 3 → Silent carrier. 2 → Trait. 1 → Hb H disease. 0 → Hb Bart's hydrops fetalis.
+    </div>
+
+    <div class="key-fact">
+      <strong>2. α⁰ vs α⁺ distinction is critical:</strong> Only DNA analysis can distinguish – –/αα from –α/–α. This distinction is life-or-death for genetic counselling — determines risk of Hb Bart's hydrops in offspring.
+    </div>
+
+    <div class="key-fact amber">
+      <strong>3. Non-deletional > deletional severity:</strong> Non-deletional Hb H disease is more severe (more anaemia, larger spleen, higher transfusion needs) than deletional.
+    </div>
+
+    <div class="key-fact purple">
+      <strong>4. Pathophysiology differs from β-thal:</strong> In Hb H disease, haemolysis dominates (β₄ precipitates in circulating red cells). In β-thal major, ineffective erythropoiesis dominates (α chains precipitate in marrow erythroblasts).
+    </div>
+
+    <div class="key-fact red">
+      <strong>5. Hb Bart's (γ₄) cannot deliver O₂:</strong> Hyperbolic dissociation curve, extremely high affinity. Hb Portland 1 (ζ₂γ₂) keeps the fetus alive but is insufficient for extrauterine survival without transfusion.
+    </div>
+
+    <div class="key-fact teal">
+      <strong>6. Geography predicts risk:</strong> α⁰ is mainly SE Asian/Mediterranean → Hb Bart's hydrops risk. α⁺ is mainly African → trait at most, no hydrops risk.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏆 Final Challenge Quiz</h2>
+
+    <div class="quiz-box" style="border-color: var(--primary);">
+      <div class="quiz-q" style="color: var(--primary);">Q1: Which haemoglobin has a hyperbolic oxygen dissociation curve?</div>
+      <div class="quiz-options" id="q-final1">
+        <div class="quiz-opt" onclick="checkQuiz('q-final1', this, false)">Hb A (α₂β₂)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final1', this, false)">Hb F (α₂γ₂)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final1', this, true)">Hb H (β₄) and Hb Bart's (γ₄)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final1', this, false)">Hb Portland 1 (ζ₂γ₂)</div>
+      </div>
+      <div class="quiz-explain right" id="q-final1-right">Correct! Both Hb H (β₄) and Hb Bart's (γ₄) are homotetramers that lack cooperativity between subunits, producing hyperbolic rather than sigmoidal curves. This makes them unable to effectively release oxygen to tissues.</div>
+      <div class="quiz-explain wrong-exp" id="q-final1-wrong">Both Hb H (β₄) and Hb Bart's (γ₄) have hyperbolic curves because they are homotetramers without cooperativity. Normal Hb A and Hb F have sigmoidal curves. Hb Portland 1 also has a sigmoidal curve and can deliver oxygen.</div>
+    </div>
+
+    <div class="quiz-box" style="border-color: var(--primary);">
+      <div class="quiz-q" style="color: var(--primary);">Q2: In sub-Saharan Africa, the most common α-thalassaemia genotype causing microcytosis is:</div>
+      <div class="quiz-options" id="q-final2">
+        <div class="quiz-opt" onclick="checkQuiz('q-final2', this, true)">–α³·⁷/–α³·⁷ (homozygous α⁺)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final2', this, false)">– –SEA/αα (α⁰ heterozygote)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final2', this, false)">– –MED/–α³·⁷ (Hb H disease)</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final2', this, false)">– –SEA/– –SEA (Hb Bart's hydrops)</div>
+      </div>
+      <div class="quiz-explain right" id="q-final2-right">Correct! In Africa, α⁺ thalassaemia (especially –α³·⁷) is extremely common (25–58%). Homozygous state (–α³·⁷/–α³·⁷) produces mild microcytosis. α⁰ thalassaemia is very rare in Africa, so Hb H disease and Hb Bart's hydrops are virtually non-existent in this population.</div>
+      <div class="quiz-explain wrong-exp" id="q-final2-wrong">In Africa, α⁺ (especially –α³·⁷) is extremely common. The homozygous state –α³·⁷/–α³·⁷ produces mild microcytosis (α-thal trait). α⁰ thalassaemia (– –) is very rare in Africa, making Hb H disease and hydrops virtually non-existent in this population.</div>
+    </div>
+
+    <div class="quiz-box" style="border-color: var(--primary);">
+      <div class="quiz-q" style="color: var(--primary);">Q3: A neonate from a SE Asian family has 25% Hb Bart's on newborn screening. The most likely diagnosis is:</div>
+      <div class="quiz-options" id="q-final3">
+        <div class="quiz-opt" onclick="checkQuiz('q-final3', this, false)">Alpha thalassaemia trait</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final3', this, true)">Hb H disease</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final3', this, false)">Hb Bart's hydrops fetalis</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final3', this, false)">Silent carrier</div>
+      </div>
+      <div class="quiz-explain right" id="q-final3-right">Correct! Hb Bart's of 20–25% at birth is characteristic of Hb H disease. Silent carriers have 1–2%, trait has 5–10%, and hydrops has >80%. This baby will need follow-up — the Hb Bart's will decrease as γ chains decline, but Hb H (β₄) will become evident.</div>
+      <div class="quiz-explain wrong-exp" id="q-final3-wrong">Hb Bart's 25% at birth = Hb H disease (typical range 20–25%, up to 40%). Silent carrier = 1–2%, trait = 5–10%, hydrops = >80%. The SE Asian background is consistent (likely – –SEA/–α³·⁷ or – –SEA/αCSα genotype).</div>
+    </div>
+
+    <div class="quiz-box" style="border-color: var(--primary);">
+      <div class="quiz-q" style="color: var(--primary);">Q4: PIP4K2A gain-of-function mutation in a patient with α-thalassaemia would:</div>
+      <div class="quiz-options" id="q-final4">
+        <div class="quiz-opt" onclick="checkQuiz('q-final4', this, true)">Increase β-globin synthesis, worsening chain imbalance and increasing Hb H</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final4', this, false)">Increase α-globin synthesis, improving chain balance</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final4', this, false)">Have no effect on the thalassaemia phenotype</div>
+        <div class="quiz-opt" onclick="checkQuiz('q-final4', this, false)">Reduce γ-globin synthesis, decreasing Hb Bart's</div>
+      </div>
+      <div class="quiz-explain right" id="q-final4-right">Correct! PIP4K2A gain-of-function increases β-globin synthesis. In a patient already lacking α chains, more β chains means greater chain imbalance → more excess β₄ tetramers (Hb H) → worse disease. This is a recently described genetic modifier of Hb H disease severity.</div>
+      <div class="quiz-explain wrong-exp" id="q-final4-wrong">PIP4K2A gain-of-function increases β-globin production. In α-thalassaemia, this worsens the α/β chain imbalance → more excess β chains → more Hb H (β₄) → more severe disease. It does NOT help — it makes things worse by widening the chain imbalance.</div>
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center;">
+    <h2>🎓 Congratulations!</h2>
+    <p>You've completed the Alpha Thalassaemia interactive learning module.</p>
+    <div id="finalScore" style="font-size:1.2rem; font-weight:700; color:var(--primary); margin:1rem 0;"></div>
+    <p style="color:var(--muted); font-size:0.85rem;">Based on Bain BJ, <em>Haemoglobinopathy Diagnosis</em>, 3rd Edition, 2020, Chapter 3</p>
+    <p style="color:var(--muted); font-size:0.85rem; margin-top:0.5rem;">
+      <strong>#BloodDoctor</strong> &bull; Making haematology learning easy
+    </p>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="goSection(7)">← Diagnosis</button>
+    <button class="nav-btn primary" onclick="goSection(0)">🔄 Start Again</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<div class="score-badge" id="scoreBadge">🩸 Score: <span id="scoreVal">0</span>/<span id="scoreTotal">0</span></div>
+
+<div class="footer">
+  <p><strong>#BloodDoctor</strong> &bull; Alpha Thalassaemia Interactive Learning</p>
+  <p>Reference: Bain BJ. <em>Haemoglobinopathy Diagnosis</em>, 3rd Edition. Wiley-Blackwell, 2020. Chapter 3.</p>
+  <p style="margin-top:0.5rem;">For educational purposes only. Clinical decisions should be based on current guidelines.</p>
+</div>
+
+<script>
+// Section definitions
+const sections = [
+  { id: 'overview', label: 'Overview', icon: '📋' },
+  { id: 'genetics', label: 'Genetics', icon: '🧬' },
+  { id: 'prevalence', label: 'Prevalence', icon: '🌍' },
+  { id: 'trait', label: 'α-Thal Trait', icon: '🔬' },
+  { id: 'hbh', label: 'Hb H Disease', icon: '🩸' },
+  { id: 'hbh-comp', label: 'Hb H Complications', icon: '⚠️' },
+  { id: 'hydrops', label: "Hb Bart's Hydrops", icon: '🫀' },
+  { id: 'diagnosis', label: 'Diagnosis', icon: '🔍' },
+  { id: 'summary', label: 'Summary & Quiz', icon: '🏆' },
+];
+
+let currentSection = 0;
+let completedSections = new Set();
+let score = 0;
+let totalQuestions = 0;
+let answeredQuestions = new Set();
+
+// Build navigation tabs
+const navContainer = document.getElementById('navTabs');
+sections.forEach((s, i) => {
+  const tab = document.createElement('div');
+  tab.className = 'nav-tab' + (i === 0 ? ' active' : '');
+  tab.id = 'tab-' + i;
+  tab.innerHTML = `<span class="tab-icon">${s.icon}</span>${s.label}<span class="tab-check">✓</span>`;
+  tab.onclick = () => goSection(i);
+  navContainer.appendChild(tab);
+});
+
+function goSection(idx) {
+  // Mark current section as completed
+  completedSections.add(currentSection);
+  document.getElementById('tab-' + currentSection).classList.add('completed');
+
+  // Switch section
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + sections[idx].id).classList.add('active');
+
+  // Update tab styles
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + idx).classList.add('active');
+
+  // Scroll tab into view
+  document.getElementById('tab-' + idx).scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+  currentSection = idx;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const completed = completedSections.size;
+  const total = sections.length;
+  const pct = Math.round((completed / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = completed + ' / ' + total + ' sections';
+}
+
+// Spectrum detail data
+const spectrumData = [
+  '<strong>Silent carrier (–α/αα):</strong> One α gene deleted/inactivated. Usually completely asymptomatic with normal or borderline MCV/MCH. Detected by DNA analysis or Hb Bart\'s (1–2%) at birth. Important for genetic counselling.',
+  '<strong>α-Thal trait (–α/–α or – –/αα):</strong> Two genes affected. Mild microcytosis (MCV 70–80 fL), MCH reduced, Hb usually normal or slightly low. Normal Hb A₂. The two genotypes are clinically and haematologically INDISTINGUISHABLE without DNA analysis.',
+  '<strong>Hb H disease (e.g., – –/–α):</strong> Three genes affected. Moderate-severe anaemia (Hb 70–100 g/L), marked microcytosis (MCV 50–65 fL). Hb H (β₄ tetramers) 1–40%. "Golf ball" inclusions with brilliant cresyl blue. Splenomegaly common.',
+  '<strong>Hb Bart\'s hydrops fetalis (– –/– –):</strong> All four genes deleted. Incompatible with extrauterine life in most cases. Severe anaemia, hydrops, hepatosplenomegaly. >80% Hb Bart\'s (γ₄). Only Hb Portland 1 (ζ₂γ₂) provides oxygen delivery.'
+];
+
+function showSpectrum(idx) {
+  document.querySelectorAll('.spectrum-item').forEach(s => s.classList.remove('sel'));
+  document.querySelectorAll('.spectrum-item')[idx].classList.add('sel');
+  document.getElementById('spectrumDetail').innerHTML = spectrumData[idx];
+}
+
+// Compare toggles
+function showCompare(group, idx) {
+  document.querySelectorAll(`#${group}-0, #${group}-1`).forEach(c => c.classList.remove('active'));
+  document.getElementById(`${group}-${idx}`).classList.add('active');
+  const btns = document.getElementById(`${group}-${idx}`).previousElementSibling;
+  // Find the compare-toggle parent
+  const parent = document.getElementById(`${group}-${idx}`).parentElement;
+  const toggleBtns = parent.querySelectorAll('.compare-btn');
+  toggleBtns.forEach(b => b.classList.remove('active'));
+  toggleBtns[idx].classList.add('active');
+}
+
+// Expandable sections
+function toggleExpand(el) {
+  el.classList.toggle('open');
+  const body = el.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// Quiz system
+function checkQuiz(quizId, el, isCorrect) {
+  if (answeredQuestions.has(quizId)) return;
+  answeredQuestions.add(quizId);
+  totalQuestions++;
+
+  const options = document.querySelectorAll(`#${quizId} .quiz-opt`);
+  options.forEach(o => o.classList.add('disabled'));
+
+  if (isCorrect) {
+    score++;
+    el.classList.add('correct');
+    document.getElementById(quizId + '-right').classList.add('show');
+  } else {
+    el.classList.add('wrong');
+    // Highlight correct answer
+    options.forEach(o => {
+      if (o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+    });
+    document.getElementById(quizId + '-wrong').classList.add('show');
+  }
+
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('scoreTotal').textContent = totalQuestions;
+  if (totalQuestions === 11) {
+    const pct = Math.round((score / totalQuestions) * 100);
+    document.getElementById('finalScore').textContent = `Final Score: ${score}/${totalQuestions} (${pct}%) ${pct >= 80 ? '🌟 Excellent!' : pct >= 60 ? '👍 Good work!' : '📚 Review recommended'}`;
+  }
+}
+
+// Initialize
+updateProgress();
+</script>
+
+</body>
+</html>
