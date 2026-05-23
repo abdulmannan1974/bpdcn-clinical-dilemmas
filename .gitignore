@@ -1,0 +1,113 @@
+# Local Netlify folder
+.netlify
+
+# =============================================================
+# Security-critical — never commit these
+# =============================================================
+.ssh/
+.gnupg/
+.aws/
+.azure/
+.google-mcp/
+.mcp-auth/
+.zotero_key
+.env*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Shell / system history and config
+.zshrc
+.zprofile
+.zsh_history
+.zsh_sessions/
+.zcompdump
+.zshrc.kaku-backup*
+.bash_history
+.python_history
+.Rapp.history
+.z
+.DS_Store
+.CFUserTextEncoding
+.Trash/
+
+# Apple / macOS system directories — never track
+Library/
+.config/
+.local/
+.cache/
+.cups/
+
+# Google Drive — Cowork Brain has its own isolated repo
+Google\ Drive/
+
+# AI and coding tool configs
+.claude.json
+.claude.json.backup
+.claude/
+.cursor/
+.vscode/
+.augment/
+.antigravity/
+.antigravity-ide/
+.codeium/
+.continue/
+.codex/
+.commandcode/
+.composio/
+.factory/
+.gateguard/
+.gemini/
+.iflow/
+.junie/
+.kapture/
+.kilocode/
+.kiro/
+.kode/
+.manus/
+.mcpjam/
+.mux/
+.neovate/
+.notebooklm/
+.npm/
+.openclaw/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.snowflake/
+.stitch-mcp/
+.vault-mirror/
+.vibe/
+.zencoder/
+.adal/
+.agents/
+.bob/
+.codebuddy/
+.docsagent/
+.trae/
+.trae-cn/
+
+# Large personal directories
+Movies/
+Music/
+Pictures/
+Documents/
+Downloads/
+Desktop/
+Public/
+Sites/
+
+# Development
+go/
+node_modules/
+
+# Personal data stores
+OneDrive
+Zotero/
+Zotero_sync/
+output/
+blood-doctor/
