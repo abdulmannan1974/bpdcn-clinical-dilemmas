@@ -17,6 +17,38 @@
 *.p12
 *.pfx
 
+# Added 2026-08-11 after a stray `git add -A` staged 109,043 files here,
+# including live credentials. None were ever committed, but nothing stopped
+# them being staged. This repo has PUBLIC remotes — keep these out.
+.grok/
+.calendar-mcp/
+.copilot/
+.claudian/
+.hermes/
+.cua-driver/
+.cua-driver-rs/
+.antigravitycli/
+.agent-guidance-backups/
+.bash_sessions/
+.claude.json.bak*
+auth.json
+*auth.json
+*oauth*.json
+credentials*.json
+
+# Package/tool caches — the bulk of that accidental 109k staging
+.bun/
+.deno/
+.rustup/
+.cargo/
+.gradle/
+.m2/
+.julia/
+
+# Session transcript archive (BM25 recall engine). Full past conversations —
+# must never reach a repo with public remotes.
+.memory/
+
 # Shell / system history and config
 .zshrc
 .zprofile
